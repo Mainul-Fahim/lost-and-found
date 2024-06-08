@@ -1,33 +1,45 @@
 "use client";
 
-import { useGetMyClaimItemsQuery } from '@/redux/api/claimApi';
-import { useGetMyFoundItemsQuery } from '@/redux/api/foundItemApi';
-import { useGetMyLostItemsQuery } from '@/redux/api/lostItemApi';
+import { useGetMyClaimItemsQuery, useUpdateClaimStatusMutation } from '@/redux/api/claimApi';
 import { EditNotifications } from '@mui/icons-material';
 import { Box, Button, IconButton, Tooltip } from '@mui/material';
 import { DataGrid, GridColDef, GridDeleteForeverIcon, GridDeleteIcon } from '@mui/x-data-grid';
-import Link from 'next/link';
+import { useState } from 'react'
+import { toast } from 'sonner';
 
+const statusOptions = ['PENDING', 'APPROVED', 'REJECTED']
 
 const MyClaimItems = () => {
 
-    const { data, isLoading } = useGetMyClaimItemsQuery({})
+    const { data, isLoading, refetch } = useGetMyClaimItemsQuery({})
+
+    const [updateClaimStatus, { isLoading: updating }] = useUpdateClaimStatusMutation()
+
+
+    const [selectedStatus, setSelectedStatus] = useState(''); // Initial state
+
+    const handleStatusChange = async (event: any, id: string) => {
+        setSelectedStatus(event.target.value);
+        console.log(event.target.value)
+
+        try {
+            const res = await updateClaimStatus({ body: event.target.value, id });
+            console.log(res)
+            if (res) {
+                toast.success("Status Updated successfully!");
+                setSelectedStatus("")
+                await refetch();
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    };
 
     const claimItems = data?.claimItems?.claimItems;
-    const meta = data?.meta;
+
 
     console.log(claimItems)
 
-    const handleDelete = async (id: string) => {
-        try {
-            //   const res = await deleteSpecialty(id).unwrap();
-            //   if (res?.id) {
-            //     toast.success("Specialty deleted successfully!!!");
-            //   }
-        } catch (err: any) {
-            console.error(err.message);
-        }
-    };
 
     const columns: GridColDef[] = [
         { field: "lostDate", headerName: "Lost Date", flex: 1 },
@@ -42,31 +54,38 @@ const MyClaimItems = () => {
             ),
         },
         // { field: "location", headerName: "Location", flex: 1 },
-        { field: "status", headerName: "Status", flex: 1 },
         {
-            field: "action",
-            headerName: "Action",
-            flex: 1,
-            headerAlign: "center",
-            align: "center",
+            field: "status", headerName: "Status", flex: 1,
             renderCell: ({ row }) => {
+
+
+
                 return (
-                    <Box>
-                        <IconButton
-                            onClick={() => handleDelete(row.id)}
-                            aria-label="delete"
-                        >
-                            <GridDeleteForeverIcon sx={{ color: "red" }} />
-                        </IconButton>
-                        <Link href={`/dashboard/admin/edit/${row.id}`}>
-                            <IconButton aria-label="delete">
-                                <EditNotifications />
-                            </IconButton>
-                        </Link>
-                    </Box>
-                );
-            },
+                    <>
+
+                        <Tooltip title={row.status}>
+                            <Box>
+                                <select style={{
+                                    backgroundColor: '#f5f5f5',
+                                    border: '1px solid #ccc',
+                                    borderRadius: '4px',
+                                    padding: '5px 10px',
+                                    cursor: 'pointer'
+                                }} name="status" id="status" value={selectedStatus || row?.status} onChange={(e) => handleStatusChange(e, row.id)}>
+                                    {statusOptions.map((option) => (
+                                        <option key={option} value={option}>
+                                            {option}
+                                        </option>
+                                    ))}
+                                </select>
+                            </Box>
+                        </Tooltip >
+
+                    </>
+                )
+            }
         },
+      
     ];
 
     return (

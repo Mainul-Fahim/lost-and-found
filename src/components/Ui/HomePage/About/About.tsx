@@ -28,7 +28,7 @@ const About = () => {
                         </Typography>
                         <Button
                             variant="outlined"
-                            href="/about-us"
+                            // href="/about-us"
                             sx={{mt:2}}
                         >
                             Learn More

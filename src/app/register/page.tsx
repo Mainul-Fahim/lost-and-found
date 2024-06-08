@@ -14,21 +14,21 @@ import LFForm from "@/components/Forms/LFForm";
 import userLogin from "@/services/actions/userLogin";
 
 
-export const userValidationSchema = z.object({
+const userValidationSchema = z.object({
   bio: z
     .string()
     .min(6, "Please enter your bio!"),
   age: z.number().min(1, "Please enter your age!"),
 });
 
-export const validationSchema = z.object({
+const validationSchema = z.object({
   name: z.string().min(1, "Please enter your name!"),
   email: z.string().email("Please enter a valid email address!"),
   password: z.string().min(6, "Must be at least 6 characters"),
   profile: userValidationSchema,
 });
 
-export const defaultValues = {
+const defaultValues = {
   name: "",
   email: "",
   password: "",
@@ -120,21 +120,21 @@ const RegisterPage = () => {
                   />
                 </Grid>
 
-                <Grid item md={6} my={1}>
+                <Grid item md={12} my={1}>
                   <LFInput
                     label="Bio"
                     fullWidth={true}
                     name="profile.bio"
                   />
                 </Grid>
-                <Grid item md={6} my={1}>
+                {/* <Grid item md={6} my={1}>
                   <LFInput
                     label="Age"
                     type="number"
                     fullWidth={true}
                     name="profile.age"
                   />
-                </Grid>
+                </Grid> */}
 
               </Grid>
 

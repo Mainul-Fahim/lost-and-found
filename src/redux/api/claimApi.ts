@@ -25,8 +25,20 @@ export const claimApi = baseApi.injectEndpoints({
          },
          providesTags: [tagTypes.claimItem],
       }),
+
+      updateClaimStatus: build.mutation({
+         query: (data) => {
+            console.log(data);
+            return {
+               url: `/claims/${data.id}`,
+               method: 'PUT',
+               data: {status:data.body},
+            };
+         },
+         invalidatesTags: [tagTypes.claimItem],
+      }),
       
     }),
  });
 
- export const { useCreateClaimMutation, useGetMyClaimItemsQuery } = claimApi
+ export const { useCreateClaimMutation, useGetMyClaimItemsQuery, useUpdateClaimStatusMutation } = claimApi

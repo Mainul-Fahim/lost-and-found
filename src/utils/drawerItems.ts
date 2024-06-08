@@ -22,11 +22,11 @@ export const drawerItems = (role: UserRole): DrawerItem[] => {
    const roleMenus: DrawerItem[] = [];
 
    const defaultMenus = [
-      {
-         title: 'Profile',
-         path: `${role}/profile`,
-         icon: PersonIcon,
-      },
+      // {
+      //    title: 'Profile',
+      //    path: `${role}/profile`,
+      //    icon: PersonIcon,
+      // },
       {
          title: 'Change Password',
          path: `change-password`,

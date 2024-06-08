@@ -1,10 +1,11 @@
 "use client";
 
-import { useGetMyLostItemsQuery } from '@/redux/api/lostItemApi';
+import { useDeleteLostItemMutation, useGetMyLostItemsQuery } from '@/redux/api/lostItemApi';
 import { EditNotifications } from '@mui/icons-material';
 import { Box, Button, IconButton, Tooltip } from '@mui/material';
 import { DataGrid, GridColDef, GridDeleteForeverIcon, GridDeleteIcon } from '@mui/x-data-grid';
 import Link from 'next/link';
+import { toast } from 'sonner';
 
 
 const MyLostItems = () => {
@@ -12,16 +13,19 @@ const MyLostItems = () => {
     const { data, isLoading } = useGetMyLostItemsQuery({})
 
     const lostItems = data?.lostItems?.lostItems;
-    const meta = data?.meta;
+
+    const [deleteLostItem] = useDeleteLostItemMutation()
 
     console.log(lostItems)
 
     const handleDelete = async (id: string) => {
         try {
-            //   const res = await deleteSpecialty(id).unwrap();
-            //   if (res?.id) {
-            //     toast.success("Specialty deleted successfully!!!");
-            //   }
+            const res = await deleteLostItem(id).unwrap();
+            console.log(res)
+            if (res?.id) {
+                toast.success("Lost Item Report deleted successfully!!!");
+
+            }
         } catch (err: any) {
             console.error(err.message);
         }
@@ -56,23 +60,16 @@ const MyLostItems = () => {
                         >
                             <GridDeleteForeverIcon sx={{ color: "red" }} />
                         </IconButton>
-                        <Link href={`/dashboard/admin/doctors/edit/${row.id}`}>
+                        {/* <Link href={`/dashboard/admin/doctors/edit/${row.id}`}>
                             <IconButton aria-label="delete">
                                 <EditNotifications />
                             </IconButton>
-                        </Link>
+                        </Link> */}
                     </Box>
                 );
             },
         },
     ];
-
-    const rows = [
-        { id: 1, col1: 'Hello', col2: 'World' },
-        { id: 2, col1: 'DataGridPro', col2: 'is Awesome' },
-        { id: 3, col1: 'MUI', col2: 'is Amazing' },
-    ];
-
 
     return (
         <Box>

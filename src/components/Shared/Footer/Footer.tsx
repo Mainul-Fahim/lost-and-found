@@ -44,9 +44,6 @@ const Footer = () => {
                         color="white"
                     >
 
-                        <Box component="span" color="primary.main">
-                            H
-                        </Box>{" "}
                         Lost and Found
                     </Typography>
                     <Typography component="p" color="white">

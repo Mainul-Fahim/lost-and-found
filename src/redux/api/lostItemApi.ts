@@ -33,8 +33,16 @@ export const lostItemApi = baseApi.injectEndpoints({
          },
          providesTags: [tagTypes.lostItem],
       }),
+
+      deleteLostItem: build.mutation({
+         query: (id) => ({
+            url: `/lost-items/${id}`,
+            method: 'DELETE',
+         }),
+         invalidatesTags: [tagTypes.lostItem],
+      }),
       
     }),
  });
 
- export const { useCreateLostItemMutation, useGetAllLostCategoriesQuery, useGetMyLostItemsQuery } = lostItemApi
+ export const { useCreateLostItemMutation, useGetAllLostCategoriesQuery, useGetMyLostItemsQuery, useDeleteLostItemMutation } = lostItemApi

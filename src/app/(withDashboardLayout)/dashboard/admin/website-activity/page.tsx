@@ -30,7 +30,7 @@ const WebsiteActivity = () => {
                 <Typography variant="h4" component="span">{data?.claimItems}</Typography>
             </Box>
             <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                <Typography variant="h6" component="span" sx={{ color: getColor(data?.reunionCount) }}>Claims</Typography>
+                <Typography variant="h6" component="span" sx={{ color: getColor(data?.reunionCount) }}>Reunions</Typography>
                 <Typography variant="h4" component="span">{data?.reunionCount}</Typography>
             </Box>
         </Box>

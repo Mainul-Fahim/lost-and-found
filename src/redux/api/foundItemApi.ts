@@ -42,7 +42,15 @@ export const foundItemApi = baseApi.injectEndpoints({
          providesTags: [tagTypes.foundItem],
       }),
 
+      deleteFoundItem: build.mutation({
+         query: (id) => ({
+            url: `/found-items/${id}`,
+            method: 'DELETE',
+         }),
+         invalidatesTags: [tagTypes.foundItem],
+      }),
+
    }),
 });
 
-export const { useCreateFoundItemMutation, useGetAllFoundCategoriesQuery, useGetAllFoundItemsQuery, useGetMyFoundItemsQuery } = foundItemApi
+export const { useCreateFoundItemMutation, useGetAllFoundCategoriesQuery, useGetAllFoundItemsQuery, useGetMyFoundItemsQuery, useDeleteFoundItemMutation } = foundItemApi

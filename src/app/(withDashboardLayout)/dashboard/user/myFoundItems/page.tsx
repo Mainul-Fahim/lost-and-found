@@ -1,11 +1,11 @@
 "use client";
 
-import { useGetMyFoundItemsQuery } from '@/redux/api/foundItemApi';
-import { useGetMyLostItemsQuery } from '@/redux/api/lostItemApi';
+import { useDeleteFoundItemMutation, useGetMyFoundItemsQuery } from '@/redux/api/foundItemApi';
 import { EditNotifications } from '@mui/icons-material';
 import { Box, Button, IconButton, Tooltip } from '@mui/material';
 import { DataGrid, GridColDef, GridDeleteForeverIcon, GridDeleteIcon } from '@mui/x-data-grid';
 import Link from 'next/link';
+import { toast } from 'sonner';
 
 
 const MyFoundItems = () => {
@@ -13,20 +13,21 @@ const MyFoundItems = () => {
     const { data, isLoading } = useGetMyFoundItemsQuery({})
 
     const foundItems = data?.foundItems?.foundItems;
-    const meta = data?.meta;
+
+    // const [deleteFoundItem] = useDeleteFoundItemMutation()
 
     console.log(foundItems)
 
-    const handleDelete = async (id: string) => {
-        try {
-            //   const res = await deleteSpecialty(id).unwrap();
-            //   if (res?.id) {
-            //     toast.success("Specialty deleted successfully!!!");
-            //   }
-        } catch (err: any) {
-            console.error(err.message);
-        }
-    };
+    // const handleDelete = async (id: string) => {
+    //     try {
+    //         const res = await deleteFoundItem(id).unwrap();
+    //         if (res?.id) {
+    //             toast.success("Found Item Report deleted successfully!!!");
+    //         }
+    //     } catch (err: any) {
+    //         console.error(err.message);
+    //     }
+    // };
 
     const columns: GridColDef[] = [
         { field: "foundItemName", headerName: "Found Item Name", flex: 1 },
@@ -42,30 +43,26 @@ const MyFoundItems = () => {
         },
         { field: "location", headerName: "Location", flex: 1 },
         // { field: "status", headerName: "Status", flex: 1 },
-        {
-            field: "action",
-            headerName: "Action",
-            flex: 1,
-            headerAlign: "center",
-            align: "center",
-            renderCell: ({ row }) => {
-                return (
-                    <Box>
-                        <IconButton
-                            onClick={() => handleDelete(row.id)}
-                            aria-label="delete"
-                        >
-                            <GridDeleteForeverIcon sx={{ color: "red" }} />
-                        </IconButton>
-                        <Link href={`/dashboard/admin/doctors/edit/${row.id}`}>
-                            <IconButton aria-label="delete">
-                                <EditNotifications />
-                            </IconButton>
-                        </Link>
-                    </Box>
-                );
-            },
-        },
+        // {
+        //     field: "action",
+        //     headerName: "Action",
+        //     flex: 1,
+        //     headerAlign: "center",
+        //     align: "center",
+        //     renderCell: ({ row }) => {
+        //         return (
+        //             <Box>
+        //                 <IconButton
+        //                     onClick={() => handleDelete(row.id)}
+        //                     aria-label="delete"
+        //                 >
+        //                     <GridDeleteForeverIcon sx={{ color: "red" }} />
+        //                 </IconButton>
+                      
+        //             </Box>
+        //         );
+        //     },
+        // },
     ];
 
     return (

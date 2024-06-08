@@ -1,7 +1,6 @@
 import { Box, Button, Container, Stack, Typography } from '@mui/material';
-import Link from 'next/link';
 
-const LostItems = async() => {
+const AllLostItems = async() => {
     
     const res = await fetch("https://lost-and-found-system-rose.vercel.app/api/lost-items", {
         next: {
@@ -10,6 +9,7 @@ const LostItems = async() => {
       });
       const { data: lostItems } = await res.json();
         console.log(lostItems);
+    
     
     return (
         <Container>
@@ -32,7 +32,7 @@ const LostItems = async() => {
                     </Typography>
                 </Box>
                 <Stack direction="row" gap={4} mt={5}>
-                    {lostItems?.slice(0,5).map((lost: any) => (
+                    {lostItems?.map((lost: any) => (
                         <Box
                             key={lost?.id}
                             sx={{
@@ -62,17 +62,9 @@ const LostItems = async() => {
                         </Box>
                     ))}
                 </Stack>
-                <Button
-                    variant="outlined"
-                    sx={{
-                        marginTop: "20px",
-                    }}
-                >
-                    <Link href="/lost-items">View All</Link>
-                </Button>
             </Box>
         </Container>
     );
 };
 
-export default LostItems;
+export default AllLostItems;

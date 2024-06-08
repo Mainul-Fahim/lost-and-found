@@ -36,6 +36,18 @@ export const authApi = baseApi.injectEndpoints({
          }),
          // providesTags: [tagTypes.lostItem],
       }),
+
+      updateActiveStatus: build.mutation({
+         query: (data) => {
+            console.log(data);
+            return {
+               url: `/${data.userId}/activate`,
+               method: 'PATCH',
+               data: {isActive:data.body},
+            };
+         },
+         invalidatesTags: [tagTypes.user],
+      }),
       
     }),
  });
@@ -44,5 +56,6 @@ export const authApi = baseApi.injectEndpoints({
  useChangePasswordMutation,
  useUserLoginMutation,
  useGetAllUsersQuery,
- useGetWebsiteActivityQuery
+ useGetWebsiteActivityQuery,
+ useUpdateActiveStatusMutation
  } = authApi;
